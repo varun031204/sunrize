@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Risk Assessment App Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow {
+            position: relative;
+            width: 2px;
+            height: 40px;
+            background-color: #665191;
+            margin: 10px auto;
+        }
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            left: -5px;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid #665191;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-[#003f5c] mb-2">A New Era of Weather Planning</h1>
+            <p class="text-lg md:text-xl text-[#2f4b7c]">Moving Beyond Forecasts to Strategic Risk Assessment with NASA Data</p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div class="md:col-span-2 bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-[#003f5c] mb-4">The Problem: The Planning Gap</h2>
+                <p class="mb-6 text-gray-600">Standard weather tools are designed for the immediate future, leaving a massive gap for long-term planning. Simple historical averages are even more misleading, as they hide the true risk of extreme conditions that can ruin a major event or trip.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-lg font-bold text-center mb-4 text-[#2f4b7c]">Forecasts Are Too Short-Sighted</h3>
+                        <div class="w-full bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                           <div class="bg-[#d45087] h-8 rounded-r-full" style="width: 5%;"></div>
+                           <div class="absolute inset-0 flex items-center justify-between px-4 text-sm font-medium">
+                               <span class="text-white">1-10 Days</span>
+                               <span class="text-gray-700">The 355-Day Planning Gap</span>
+                           </div>
+                        </div>
+                        <p class="text-center mt-3 text-sm text-gray-500">Traditional forecasts cover a tiny fraction of the time needed to plan significant events.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-center mb-4 text-[#2f4b7c]">Averages Conceal Extreme Risks</h3>
+                        <div class="chart-container h-64 sm:h-80">
+                            <canvas id="averageVsExtremesChart"></canvas>
+                        </div>
+                         <p class="text-center mt-3 text-sm text-gray-500">A pleasant monthly average can hide multiple days of dangerous, event-canceling weather.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-xl shadow-lg p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-[#003f5c] mb-4">Our Solution: Climatological Risk Assessment</h2>
+                    <p class="mb-4 text-gray-600">We don't predict the weather; we quantify the risk. By analyzing over 40 years of NASA's global Earth Observation data, we provide the statistical probability of specific weather conditions for any day of the year, anywhere on Earth.</p>
+                    <div class="flex flex-wrap gap-4 text-center">
+                        <div class="flex-1 bg-[#f0f4f8] p-3 rounded-lg"><span class="text-3xl">🛰</span><p class="font-bold">Decades of Data</p></div>
+                        <div class="flex-1 bg-[#f0f4f8] p-3 rounded-lg"><span class="text-3xl">🌡</span><p class="font-bold">Temperature</p></div>
+                        <div class="flex-1 bg-[#f0f4f8] p-3 rounded-lg"><span class="text-3xl">💧</span><p class="font-bold">Precipitation</p></div>
+                        <div class="flex-1 bg-[#f0f4f8] p-3 rounded-lg"><span class="text-3xl">💨</span><p class="font-bold">Wind Speed</p></div>
+                    </div>
+                </div>
+                 <div class="bg-[#003f5c] text-white p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-[#ffa600]">Climatology vs. Meteorology</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-bold">Meteorology (Forecasts)</h4>
+                            <p class="text-sm opacity-90">Predicts exact conditions for the near future based on current atmospheric models.</p>
+                        </div>
+                        <hr class="border-gray-500"/>
+                        <div>
+                            <h4 class="font-bold">Climatology (Our App)</h4>
+                            <p class="text-sm opacity-90">Calculates the historical probability of conditions for the long-term based on decades of past data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-[#665191] mb-2">USP 1: Strategic vs. Predictive</h3>
+                 <p class="text-gray-600 mb-4">Instead of a simple forecast, get actionable probabilities to support major decisions.</p>
+                <div class="chart-container h-64 sm:h-80">
+                    <canvas id="probabilityChart"></canvas>
+                </div>
+                <p class="text-center font-bold text-lg mt-4">45% Chance of "Very Wet" Conditions</p>
+                <p class="text-center text-sm text-gray-500">(e.g., >= 0.5 inches of rain)</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                 <h3 class="text-xl font-bold text-[#a05195] mb-2">USP 2: Personalized "Uncomfortable" Index</h3>
+                 <p class="text-gray-600 mb-4">"Bad weather" is subjective. You define the thresholds that matter for your specific activity.</p>
+                 <div class="text-center">
+                    <div class="bg-gray-100 p-4 rounded-lg inline-block">
+                        <p class="font-bold">User Defines "Very Hot"</p>
+                        <p class="text-sm">Temp ≥ 90°F & Humidity ≥ 70%</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                    <div class="bg-gray-100 p-4 rounded-lg inline-block">
+                        <p class="font-bold">User Defines "Very Windy"</p>
+                        <p class="text-sm">Wind Speed ≥ 25 mph</p>
+                    </div>
+                    <div class="flow-arrow"></div>
+                     <div class="bg-[#a05195] text-white p-4 rounded-lg inline-block shadow-md">
+                        <p class="font-bold">App Generates Personalized Risk Score</p>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h3 class="text-2xl font-bold text-center text-[#d45087] mb-4">USP 3: Climate Trend Analysis</h3>
+                <p class="text-center max-w-2xl mx-auto text-gray-600 mb-6">Historical data isn't static. See if the likelihood of extreme events for your specific location and time of year has been increasing over the past two decades, providing crucial insight into our changing climate.</p>
+                <div class="chart-container h-80 sm:h-96">
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-2 bg-[#003f5c] text-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl text-center font-black text-[#ffa600] mb-4">The Killer Feature: Strategic Destination Recommendations</h2>
+                <p class="text-center max-w-3xl mx-auto opacity-90 mb-6">Stop asking "What will the weather be like in this location?". Start asking "Which location has the weather I want?". Our engine flips the script, recommending destinations that best fit your desired low-risk weather profile.</p>
+                <div class="bg-white rounded-lg p-4">
+                    <h3 class="text-lg font-bold text-center mb-4 text-[#2f4b7c]">Query: "Lowest Chance of 'Very Cold' Weather in February?"</h3>
+                    <div class="chart-container h-80 sm:h-96">
+                        <canvas id="recommendationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-[#ff7c43] mb-2">Data Integrity You Can Trust</h3>
+                 <p class="text-gray-600 mb-4">Our accuracy isn't based on predicting the future, it's based on the statistical reliability of real-world history.</p>
+                 <div class="text-6xl md:text-8xl font-black text-[#ff7c43]">40+</div>
+                 <p class="text-xl font-bold text-gray-700">Years of NASA Data</p>
+            </div>
+
+            <div class="text-center p-6 bg-white rounded-xl shadow-lg flex flex-col justify-center">
+                 <h3 class="text-xl font-bold text-[#ffa600] mb-4">A New Standard in Planning</h3>
+                 <p class="text-gray-600">From event planners to global travelers, our tool provides the high-value, long-term insight needed to make informed decisions with confidence.</p>
+                 <button class="mt-4 bg-[#ffa600] text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-[#ff7c43] transition-colors">Learn More</button>
+            </div>
+
+        </main>
+    </div>
+
+<script>
+    const tooltipTitleCallback = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                          return label.join(' ');
+                        } else {
+                          return label;
+                        }
+                    }
+                }
+            }
+        }
+    };
+    
+    function wrapLabels(label, maxLength = 16) {
+        if (typeof label !== 'string' || label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + word).length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = '';
+            }
+            currentLine += word + ' ';
+        });
+        lines.push(currentLine.trim());
+        return lines.filter(line => line.length > 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const averageVsExtremesCtx = document.getElementById('averageVsExtremesChart').getContext('2d');
+        new Chart(averageVsExtremesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Day 1', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+                datasets: [{
+                    label: 'Actual Daily High (°F)',
+                    data: [78, 82, 102, 75, 105, 70, 79],
+                    backgroundColor: '#d45087',
+                    borderColor: '#a05195',
+                    borderWidth: 1
+                }, {
+                    type: 'line',
+                    label: 'Monthly Average (75°F)',
+                    data: [75, 75, 75, 75, 75, 75, 75],
+                    borderColor: '#665191',
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    fill: false,
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: false, suggestedMin: 60, suggestedMax: 110 }
+                }
+            }
+        });
+
+        const probabilityCtx = document.getElementById('probabilityChart').getContext('2d');
+        new Chart(probabilityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Very Wet Conditions', 'Other Conditions'],
+                datasets: [{
+                    data: [45, 55],
+                    backgroundColor: ['#665191', '#e0e0e0'],
+                    borderColor: ['#ffffff'],
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '70%',
+                plugins: { ...tooltipTitleCallback.plugins, legend: { display: true, position: 'bottom' } }
+            }
+        });
+        
+        const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+        new Chart(trendsCtx, {
+            type: 'line',
+            data: {
+                labels: ['2005', '2010', '2015', '2020', '2025'],
+                datasets: [{
+                    label: 'Likelihood of >95°F Days in July',
+                    data: [15, 17, 19, 22, 25],
+                    borderColor: '#d45087',
+                    backgroundColor: 'rgba(212, 80, 135, 0.2)',
+                    fill: true,
+                    tension: 0.3,
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { 
+                        beginAtZero: false,
+                        ticks: { callback: value => value + '%' }
+                    }
+                },
+                plugins: { ...tooltipTitleCallback.plugins, legend: { display: false } }
+            }
+        });
+        
+        const recommendationCtx = document.getElementById('recommendationChart').getContext('2d');
+        const rawLabels = ['San Diego, USA', 'Phoenix, USA', 'Cancun, Mexico', 'Miami, USA', 'Dubai, UAE', 'Bangkok, Thailand'];
+        const wrappedLabels = rawLabels.map(label => wrapLabels(label));
+        new Chart(recommendationCtx, {
+            type: 'bar',
+            data: {
+                labels: wrappedLabels,
+                datasets: [{
+                    label: 'Probability of "Very Cold"',
+                    data: [5, 6, 8, 12, 14, 18],
+                    backgroundColor: ['#003f5c', '#2f4b7c', '#665191', '#a05195', '#d45087', '#f95d6a'],
+                }]
+            },
+            options: {
+                ...tooltipTitleCallback,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: { ticks: { callback: value => value + '%' } }
+                },
+                plugins: { ...tooltipTitleCallback.plugins, legend: { display: false } }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
