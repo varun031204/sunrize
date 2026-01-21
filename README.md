@@ -1,7 +1,5 @@
 # 🚀 SUNRIZE - Strategic Weather Risk Assessment
 
-**NASA Space Apps Challenge 2024 Winner** 🏆  
-*Revolutionary decision-support tool powered by NASA Earth Observation Data for strategic long-term outdoor event planning*
 
 ![SUNRIZE Logo](public/logo.jpg)
 
