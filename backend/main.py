@@ -152,23 +152,17 @@ async def predict_weather(request: PredictionRequest):
 async def recommend_destinations(request: VacationRequest):
     try:
         from real_nasa_analyzer import RealNASAAnalyzer
-        
-        # Use real NASA analyzer
         analyzer = RealNASAAnalyzer()
-        
         criteria = {
             'maxWetRisk': request.maxWetRisk,
             'maxHotRisk': request.maxHotRisk,
             'maxColdRisk': request.maxColdRisk,
             'maxWindyRisk': request.maxWindyRisk,
-            'activityType': request.activityType
+            'activityType': request.activityType,
+            'month': request.month
         }
-        
-        # Get real NASA analysis
         recommendations = analyzer.find_best_destinations(criteria)
-        
-        return {"recommendations": recommendations[:15]}
-        
+        return {"recommendations": recommendations[:15], "total_analyzed": len(recommendations)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

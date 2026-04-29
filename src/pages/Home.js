@@ -1,181 +1,181 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Satellite, Globe, BarChart3, Shield, Rocket, Zap, Target } from 'lucide-react';
+import { ArrowRight, Satellite, Globe, BarChart3, Shield, Zap, Target } from 'lucide-react';
 
-const Home = () => {
-  const features = [
-    {
-      icon: <Target className="h-8 w-8" />,
-      title: "Risk Assessment vs Prediction",
-      description: "45% chance of 'Very Wet' conditions next June 15th - not tomorrow's exact temperature",
-      gradient: "from-red-500 to-orange-500"
-    },
-    {
-      icon: <Shield className="h-8 w-8" />,
-      title: "Personalized Risk Index",
-      description: "Define your own thresholds: Very Hot ≥90°F, Very Windy ≥25mph for your specific activity",
-      gradient: "from-yellow-500 to-red-500"
-    },
-    {
-      icon: <Globe className="h-8 w-8" />,
-      title: "Travel Recommendation Engine",
-      description: "Find destinations with ≤15% chance of 'Very Cold' weather in February",
-      gradient: "from-blue-500 to-green-500"
-    },
-    {
-      icon: <Satellite className="h-8 w-8" />,
-      title: "Multi-Decade NASA Data",
-      description: "Decades of MODIS, TRMM data for statistically sound probability analysis",
-      gradient: "from-green-500 to-blue-500"
-    }
-  ];
+const FEATURES = [
+  {
+    icon: Target,
+    title: 'Risk Assessment',
+    description: '45% chance of "Very Wet" conditions next June — not tomorrow\'s exact temperature. Plan months ahead with confidence.',
+    color: 'text-red-500',
+    bg: 'bg-red-50',
+  },
+  {
+    icon: Shield,
+    title: 'Personalized Thresholds',
+    description: 'Define your own risk limits: Very Hot ≥ 38°C, Very Windy ≥ 25 km/h — tailored to your specific activity.',
+    color: 'text-amber-500',
+    bg: 'bg-amber-50',
+  },
+  {
+    icon: Globe,
+    title: 'Destination Finder',
+    description: 'Find cities with ≤ 15% chance of bad weather in your chosen month across 130+ Southern Asian locations.',
+    color: 'text-emerald-500',
+    bg: 'bg-emerald-50',
+  },
+  {
+    icon: Satellite,
+    title: 'Real NASA Data',
+    description: 'GPM precipitation, FLDAS temperature, and MERRA-2 wind data — decades of satellite observations.',
+    color: 'text-blue-500',
+    bg: 'bg-blue-50',
+  },
+];
 
-  return (
-    <div className="min-h-screen">
-      {/* NASA-Inspired Revolutionary Hero Section */}
-      <section className="relative min-h-screen bg-gradient-to-br from-blue-900 via-slate-900 to-green-900 text-white overflow-hidden">
-        {/* NASA-Style Animated Background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/15 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-red-500/10 rounded-full blur-2xl animate-pulse" style={{animationDelay: '4s'}}></div>
-          <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-green-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '6s'}}></div>
-        </div>
-        
-        {/* Floating NASA Elements */}
-        <div className="absolute inset-0 pointer-events-none">
-          <Satellite className="absolute top-20 left-20 w-8 h-8 text-blue-400/30 animate-bounce" style={{animationDelay: '1s'}} />
-          <Rocket className="absolute top-40 right-32 w-6 h-6 text-orange-400/40 animate-bounce" style={{animationDelay: '3s'}} />
-          <Globe className="absolute bottom-32 right-20 w-10 h-10 text-green-400/30 animate-pulse" style={{animationDelay: '2s'}} />
-          <Zap className="absolute bottom-40 left-32 w-5 h-5 text-yellow-400/40 animate-ping" style={{animationDelay: '4s'}} />
-        </div>
-        
-        {/* Glassmorphism Hero Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-12 max-w-4xl mx-auto text-center shadow-2xl">
-            <div className="mb-8">
-              <div className="flex items-center justify-center mb-6">
-                <Rocket className="w-12 h-12 text-orange-400 mr-4 animate-pulse" />
-                <h1 className="text-6xl md:text-8xl font-black bg-gradient-to-r from-yellow-200 via-orange-200 to-red-200 bg-clip-text text-transparent">
-                  SUNRIZE
-                </h1>
-                <Satellite className="w-12 h-12 text-blue-400 ml-4 animate-pulse" />
-              </div>
-              <div className="h-1 w-32 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 mx-auto rounded-full mb-6"></div>
-              <h2 className="text-2xl md:text-4xl font-bold mb-6 text-white/90">
-                Strategic Weather Risk Assessment
-              </h2>
-              <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-                Revolutionary decision-support tool powered by NASA Earth Observation Data 
-                for strategic long-term outdoor event planning
-              </p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link
-                to="/experience"
-                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <span className="relative flex items-center justify-center">
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
-              <Link
-                to="/vacation"
-                className="group relative px-8 py-4 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl font-semibold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-white/20"
-              >
-                <span className="flex items-center justify-center">
-                  Find Destinations
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
-            </div>
+const STATS = [
+  { value: '130+', label: 'Cities Covered' },
+  { value: '3',    label: 'NASA Datasets' },
+  { value: '5+',   label: 'Years of Data' },
+  { value: '95%+', label: 'Confidence' },
+];
+
+const Home = () => (
+  <div className="min-h-screen bg-slate-50">
+
+    {/* Hero */}
+    <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white pt-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300 text-sm font-medium mb-6">
+            <Satellite className="w-3.5 h-3.5" />
+            NASA Space Apps Challenge 2024
+          </div>
+          <h1 className="text-5xl md:text-6xl font-black text-white leading-tight mb-6">
+            Strategic Weather<br />
+            <span className="text-blue-400">Risk Intelligence</span>
+          </h1>
+          <p className="text-lg text-slate-300 leading-relaxed mb-10 max-w-2xl">
+            Stop asking "What will the weather be?" — start asking "Where should I go?"
+            SUNRIZE uses real NASA satellite data to give you probability-based risk scores
+            for planning events months in advance.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link
+              to="/experience"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors duration-150"
+            >
+              Assess a Location
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              to="/vacation"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-colors duration-150"
+            >
+              Find Best Destinations
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-4 h-4 bg-white/20 rounded-full animate-bounce" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/30 rounded-full animate-bounce" style={{animationDelay: '3s'}}></div>
-        <div className="absolute bottom-32 left-20 w-2 h-2 bg-purple-400/40 rounded-full animate-bounce" style={{animationDelay: '5s'}}></div>
-      </section>
+      </div>
 
-      {/* Enhanced Features Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center mb-6">
-              <Rocket className="w-8 h-8 text-orange-500 mr-3" />
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-900 via-red-900 to-yellow-900 bg-clip-text text-transparent">
-                NASA-Powered Features
-              </h2>
-              <Satellite className="w-8 h-8 text-blue-500 ml-3" />
-            </div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Move beyond short-term forecasting to strategic, decades-backed insight into weather risk
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="group relative">
-                <div className="backdrop-blur-xl bg-white/60 border border-white/20 rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-white/80">
-                  <div className="flex justify-center mb-6">
-                    <div className={`p-3 bg-gradient-to-r ${feature.gradient} rounded-2xl text-white group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                      {React.cloneElement(feature.icon, { className: "h-8 w-8" })}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+      {/* Stats bar */}
+      <div className="border-t border-white/10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {STATS.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-3xl font-black text-blue-400">{s.value}</div>
+                <div className="text-sm text-slate-400 mt-1">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Revolutionary CTA Section */}
-      <section className="relative py-20 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/3 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+    {/* Features */}
+    <section className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            Why SUNRIZE is Different
+          </h2>
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+            Traditional weather apps give you tomorrow's forecast. We give you strategic intelligence for decisions months away.
+          </p>
         </div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-12 shadow-2xl">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready for the Future?
-            </h2>
-            <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Experience revolutionary weather risk assessment powered by decades of NASA data
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link
-                to="/vacation"
-                className="group relative px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl font-bold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-              >
-                <span className="flex items-center justify-center">
-                  Start Your Journey
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Link>
-              <Link
-                to="/about"
-                className="group px-10 py-4 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl font-bold text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-white/20"
-              >
-                Learn More
-              </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {FEATURES.map(({ icon: Icon, title, description, color, bg }) => (
+            <div key={title} className="p-6 rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-md transition-all duration-200 bg-white">
+              <div className={`w-11 h-11 ${bg} rounded-xl flex items-center justify-center mb-4`}>
+                <Icon className={`w-5 h-5 ${color}`} />
+              </div>
+              <h3 className="font-semibold text-slate-900 mb-2">{title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{description}</p>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Comparison */}
+    <section className="py-20 bg-slate-50">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Forecast vs Risk Assessment</h2>
+          <p className="text-slate-500">Understanding the difference changes how you plan.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-red-500" />
+              <span className="font-semibold text-red-800">Standard Weather App</span>
+            </div>
+            <p className="text-red-700 text-sm leading-relaxed">
+              "It will be 28°C next Friday." — Deterministic, short-range, useless for planning 3 months ahead.
+            </p>
+          </div>
+          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="font-semibold text-emerald-800">SUNRIZE Risk Assessment</span>
+            </div>
+            <p className="text-emerald-700 text-sm leading-relaxed">
+              "45% probability of Very Wet conditions in June at this location." — Probabilistic, strategic, actionable months in advance.
+            </p>
           </div>
         </div>
-      </section>
-    </div>
-  );
-};
+      </div>
+    </section>
+
+    {/* CTA */}
+    <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700">
+      <div className="max-w-3xl mx-auto px-4 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          Ready to plan smarter?
+        </h2>
+        <p className="text-blue-100 text-lg mb-8">
+          Use real NASA satellite data to make confident, long-term outdoor decisions.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            to="/vacation"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 transition-colors"
+          >
+            Find Best Destinations <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            to="/about"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/15 border border-white/30 text-white font-semibold rounded-xl hover:bg-white/25 transition-colors"
+          >
+            Learn How It Works
+          </Link>
+        </div>
+      </div>
+    </section>
+
+  </div>
+);
 
 export default Home;

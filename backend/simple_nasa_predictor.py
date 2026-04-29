@@ -11,7 +11,7 @@ class SimpleNASAPredictor:
         """Load all NASA datasets"""
         try:
             # Precipitation
-            precip_ds = xr.open_dataset("g4.timeAvgMap.GPM_3IMERGM_07_precipitation.20200101-20250930.180W_90S_180E_90N.nc")
+            precip_ds = xr.open_dataset("precipitation.nc")
             self.datasets['precipitation'] = precip_ds['GPM_3IMERGM_07_precipitation']
             
             # Temperature  

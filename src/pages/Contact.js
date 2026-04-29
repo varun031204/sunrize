@@ -1,257 +1,150 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Globe, Rocket, Satellite, Zap } from 'lucide-react';
+import { Mail, MapPin, Send, Github, Linkedin, Globe, CheckCircle, AlertCircle } from 'lucide-react';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const [form,    setForm]    = useState({ name: '', email: '', subject: '', message: '' });
+  const [status,  setStatus]  = useState('idle'); // idle | success | error
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setLoading(true);
+    // Simulate async submission
+    setTimeout(() => {
+      setLoading(false);
+      setStatus('success');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    }, 800);
   };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const contactInfo = [
-    {
-      icon: <Mail className="h-6 w-6" />,
-      title: "Email",
-      details: "contact@nasaweatherpredict.com",
-      link: "mailto:contact@nasaweatherpredict.com"
-    },
-    {
-      icon: <Phone className="h-6 w-6" />,
-      title: "Phone",
-      details: "+1 (555) 123-4567",
-      link: "tel:+15551234567"
-    },
-    {
-      icon: <MapPin className="h-6 w-6" />,
-      title: "Location",
-      details: "NASA Space Apps Challenge 2024",
-      link: "#"
-    }
-  ];
-
-  const socialLinks = [
-    {
-      icon: <Github className="h-6 w-6" />,
-      name: "GitHub",
-      url: "https://github.com/nasaweatherpredict"
-    },
-    {
-      icon: <Linkedin className="h-6 w-6" />,
-      name: "LinkedIn",
-      url: "https://linkedin.com/company/nasaweatherpredict"
-    },
-    {
-      icon: <Globe className="h-6 w-6" />,
-      name: "Website",
-      url: "https://nasaweatherpredict.com"
-    }
-  ];
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* NASA Mission Control Header */}
-        <div className="relative text-center mb-16">
-          <div className="backdrop-blur-xl bg-gradient-to-r from-blue-500/10 via-green-500/10 to-yellow-500/10 border border-white/20 rounded-3xl p-12 shadow-2xl">
-            <div className="flex items-center justify-center mb-6">
-              <Satellite className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
-              <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-200 via-green-200 to-yellow-200 bg-clip-text text-transparent">
-                Mission Control
-              </h1>
-              <Rocket className="w-12 h-12 text-orange-400 ml-4 animate-pulse" />
-            </div>
-            <div className="h-1 w-32 bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500 mx-auto rounded-full mb-6"></div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Ground Control to Major Tom: Connect with our NASA mission team for weather intelligence support
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-50">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Mission Communication Form */}
-          <div className="backdrop-blur-xl bg-white/60 border border-white/30 rounded-3xl shadow-2xl p-8 hover:shadow-3xl transition-all duration-300">
-            <div className="flex items-center mb-6">
-              <Zap className="w-8 h-8 text-yellow-500 mr-3" />
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-900 to-green-900 bg-clip-text text-transparent">
-                Transmit Message
-              </h2>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Header */}
+      <div className="bg-white border-b border-slate-200 pt-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="text-2xl font-bold text-slate-900">Contact</h1>
+          <p className="text-slate-500 mt-1">Get in touch with the SUNRIZE team.</p>
+        </div>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Form */}
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-8">
+            <h2 className="font-semibold text-slate-900 text-lg mb-6">Send a Message</h2>
+
+            {status === 'success' && (
+              <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 text-sm text-emerald-700 mb-6">
+                <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                Message sent! We'll get back to you soon.
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
-                  </label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
                   <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nasa-blue focus:border-transparent"
-                    placeholder="Your full name"
+                    type="text" name="name" value={form.name} onChange={handleChange} required
+                    placeholder="Your name"
+                    className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nasa-blue focus:border-transparent"
-                    placeholder="your.email@example.com"
+                    type="email" name="email" value={form.email} onChange={handleChange} required
+                    placeholder="you@example.com"
+                    className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
-              
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Subject</label>
                 <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nasa-blue focus:border-transparent"
+                  type="text" name="subject" value={form.subject} onChange={handleChange} required
                   placeholder="What's this about?"
+                  className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-              
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
-                </label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Message</label>
                 <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nasa-blue focus:border-transparent"
-                  placeholder="Tell us more about your inquiry..."
+                  name="message" value={form.message} onChange={handleChange} required rows={5}
+                  placeholder="Tell us more…"
+                  className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 />
               </div>
-              
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 via-green-600 to-yellow-600 hover:from-blue-700 hover:via-green-700 hover:to-yellow-700 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-xl"
+                disabled={loading}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors text-sm"
               >
-                <Rocket className="h-5 w-5 mr-2" />
-                Launch Transmission
+                {loading ? 'Sending…' : <><Send className="w-4 h-4" /> Send Message</>}
               </button>
             </form>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-8">
-            {/* Mission Control Center */}
-            <div className="backdrop-blur-xl bg-white/60 border border-white/30 rounded-3xl shadow-2xl p-8 hover:shadow-3xl transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <Satellite className="w-8 h-8 text-blue-500 mr-3" />
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-900 to-green-900 bg-clip-text text-transparent">
-                  Ground Control
-                </h2>
-              </div>
-              <div className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className={`p-3 rounded-2xl text-white shadow-lg ${
-                      index === 0 ? 'bg-gradient-to-r from-blue-500 to-green-500' :
-                      index === 1 ? 'bg-gradient-to-r from-yellow-500 to-orange-500' :
-                      'bg-gradient-to-r from-red-500 to-orange-500'
-                    }`}>
-                      {info.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">
-                        {info.title}
-                      </h3>
-                      {info.link !== "#" ? (
-                        <a
-                          href={info.link}
-                          className="text-nasa-blue hover:text-blue-800 transition-colors"
-                        >
-                          {info.details}
-                        </a>
-                      ) : (
-                        <p className="text-gray-600">{info.details}</p>
-                      )}
-                    </div>
+          {/* Info sidebar */}
+          <div className="space-y-5">
+            <div className="bg-white rounded-2xl border border-slate-200 p-6">
+              <h3 className="font-semibold text-slate-900 mb-4">Contact Info</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-4 h-4 text-blue-600" />
                   </div>
-                ))}
+                  <div>
+                    <p className="text-xs text-slate-400 mb-0.5">Email</p>
+                    <p className="text-sm font-medium text-slate-700">team@sunrize.app</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-400 mb-0.5">Built for</p>
+                    <p className="text-sm font-medium text-slate-700">NASA Space Apps Challenge 2024</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Mission Network */}
-            <div className="backdrop-blur-xl bg-white/60 border border-white/30 rounded-3xl shadow-2xl p-8 hover:shadow-3xl transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <Globe className="w-8 h-8 text-green-500 mr-3" />
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-green-900 to-blue-900 bg-clip-text text-transparent">
-                  Mission Network
-                </h2>
-              </div>
-              <div className="flex space-x-4">
-                {socialLinks.map((social, index) => (
+            <div className="bg-white rounded-2xl border border-slate-200 p-6">
+              <h3 className="font-semibold text-slate-900 mb-4">Links</h3>
+              <div className="space-y-2">
+                {[
+                  { icon: Github,   label: 'GitHub',   href: 'https://github.com' },
+                  { icon: Linkedin, label: 'LinkedIn',  href: 'https://linkedin.com' },
+                  { icon: Globe,    label: 'Website',   href: '#' },
+                ].map(({ icon: Icon, label, href }) => (
                   <a
-                    key={index}
-                    href={social.url}
+                    key={label}
+                    href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gray-100 hover:bg-nasa-blue hover:text-white text-gray-600 p-3 rounded-lg transition-colors"
-                    title={social.name}
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors text-sm text-slate-600 hover:text-slate-900"
                   >
-                    {social.icon}
+                    <Icon className="w-4 h-4" />
+                    {label}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Mission Briefing */}
-            <div className="backdrop-blur-xl bg-gradient-to-r from-blue-900/80 via-green-900/80 to-yellow-900/80 border border-white/20 text-white rounded-3xl p-8 shadow-2xl">
-              <div className="flex items-center mb-4">
-                <Rocket className="w-8 h-8 text-orange-400 mr-3" />
-                <h2 className="text-2xl font-bold">
-                  NASA Space Apps Challenge 2024
-                </h2>
-              </div>
-              <p className="text-white/90 mb-6">
-                SUNRIZE mission: Demonstrating the power of NASA Earth observation satellites in 
-                strategic weather risk assessment for long-term event planning.
+            <div className="bg-slate-900 rounded-2xl p-6 text-white">
+              <h3 className="font-semibold mb-2">Mission</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                "Will It Rain On My Parade?" — Strategic Weather Intelligence for long-term outdoor planning using NASA Earth observation data.
               </p>
-              <div className="backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-4">
-                <div className="flex items-center mb-2">
-                  <Satellite className="w-5 h-5 text-blue-300 mr-2" />
-                  <h3 className="font-bold">Mission Objective:</h3>
-                </div>
-                <p className="text-white/90">"Will It Rain On My Parade?" - Strategic Weather Intelligence</p>
-              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

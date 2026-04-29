@@ -110,75 +110,124 @@ class RealNASAAnalyzer:
             'analysis_summary': f"Based on real NASA measurements: {precip:.2f}mm precip, {temp_c:.1f}°C, {wind:.1f}m/s wind"
         }
     
+    # Seasonal modifiers: month -> (precip_mult, temp_offset_c, wind_mult)
+    SEASONAL = {
+        'January':   (0.4, -4.0, 1.1), 'February':  (0.4, -2.5, 1.1),
+        'March':     (0.6, 0.0,  1.0), 'April':     (0.8, 3.0,  1.0),
+        'May':       (1.0, 5.0,  1.0), 'June':      (1.8, 3.0,  1.2),
+        'July':      (2.2, 1.0,  1.3), 'August':    (2.0, 1.0,  1.2),
+        'September': (1.5, 0.5,  1.1), 'October':   (0.9, -1.0, 1.0),
+        'November':  (0.5, -3.0, 1.0), 'December':  (0.4, -4.5, 1.1),
+    }
+
+    ACTIVITY_LABELS = {
+        'beach':         ['Beach volleyball', 'Swimming', 'Surfing', 'Water sports'],
+        'hiking':        ['Mountain trekking', 'Nature walks', 'Trail running'],
+        'mountaineering':['High altitude climbing', 'Alpine expeditions'],
+        'cycling':       ['Road cycling', 'Mountain biking', 'Bike touring'],
+        'camping':       ['Wilderness camping', 'Backpacking', 'Glamping'],
+        'photography':   ['Wildlife photography', 'Landscape shots', 'Street photography'],
+        'festivals':     ['Music festivals', 'Cultural events', 'Food festivals'],
+        'sports':        ['Cricket', 'Football', 'Tennis', 'Athletics'],
+        'agriculture':   ['Farming', 'Harvesting', 'Crop monitoring'],
+        'construction':  ['Building work', 'Infrastructure projects'],
+        'aviation':      ['Flying', 'Skydiving', 'Paragliding', 'Drone ops'],
+        'sailing':       ['Yacht sailing', 'Boat racing', 'Fishing'],
+        'wedding':       ['Outdoor ceremonies', 'Garden parties', 'Beach weddings'],
+        'sightseeing':   ['City tours', 'Historical sites', 'Architecture'],
+        'outdoor':       ['Picnics', 'General outdoor activities', 'Recreation'],
+    }
+
+    def _build_why_recommended(self, temp_c, precip, wind, activity_type, month):
+        parts = []
+        if temp_c < 15:
+            parts.append(f"cool {temp_c:.0f}°C temperatures")
+        elif temp_c < 28:
+            parts.append(f"pleasant {temp_c:.0f}°C temperatures")
+        else:
+            parts.append(f"warm {temp_c:.0f}°C temperatures")
+
+        if precip < 1:
+            parts.append("very low rainfall")
+        elif precip < 3:
+            parts.append("low rainfall")
+        else:
+            parts.append(f"{precip:.1f}mm avg precipitation")
+
+        if wind < 4:
+            parts.append("calm winds")
+        elif wind < 8:
+            parts.append("light winds")
+        else:
+            parts.append(f"{wind:.1f}m/s winds")
+
+        activity_label = activity_type.replace('_', ' ').title() if activity_type else 'outdoor activities'
+        return f"Ideal for {activity_label} in {month}: {', '.join(parts)}. NASA satellite data (GPM + FLDAS + MERRA-2)."
+
     def find_best_destinations(self, criteria):
-        """Find destinations using real NASA data analysis for ALL Southern Asian cities"""
+        """Find destinations using real NASA data with seasonal adjustment"""
         from southern_asia_cities import get_cities_in_bounds
-        
-        # Get all cities within NASA data coverage
+
         all_cities = get_cities_in_bounds()
-        
-        # Convert to required format
-        cities = []
-        for city in all_cities:
-            cities.append({
-                "name": f"{city['name']}, {city['country']}",
-                "lat": city['lat'],
-                "lon": city['lon'],
-                "country": city['country'],
-                "state": city.get('state', ''),
-                "population": city.get('population', 0)
-            })
-        
+        activity_type = criteria.get('activityType', 'outdoor')
+        month = criteria.get('month', '')
+        precip_mult, temp_offset, wind_mult = self.SEASONAL.get(month, (1.0, 0.0, 1.0))
+
         recommendations = []
-        
-        print(f"Analyzing ALL {len(cities)} Southern Asian cities with real NASA data...")
-        print(f"Coverage: India, Pakistan, Bangladesh, Sri Lanka, Nepal, Bhutan, Maldives, Afghanistan")
-        
-        for city in cities:
+        print(f"Analyzing {len(all_cities)} cities for {month or 'any month'} [{activity_type}]...")
+
+        for city in all_cities:
             try:
-                # Get real NASA analysis for this city
-                analysis = self.analyze_weather_risks(city['lat'], city['lon'])
-                risks = analysis['risks']
-                raw_data = analysis['raw_data']
-                
-                # Convert to percentages for comparison
-                risk_percentages = {k: v * 100 for k, v in risks.items()}
-                
-                # Check if city meets user criteria
-                meets_criteria = (
-                    risk_percentages['very_wet'] <= criteria['maxWetRisk'] and
-                    risk_percentages['very_hot'] <= criteria['maxHotRisk'] and
-                    risk_percentages['very_cold'] <= criteria['maxColdRisk'] and
-                    risk_percentages['very_windy'] <= criteria['maxWindyRisk']
-                )
-                
-                if meets_criteria:
-                    overall_risk = (risk_percentages['very_wet'] + risk_percentages['very_hot'] + 
-                                  risk_percentages['very_cold'] + risk_percentages['very_windy']) / 4
-                    
-                    temp_c = raw_data['temperature_k'] - 273.15
-                    
+                raw = self.get_location_data(city['lat'], city['lon'])
+
+                # Apply seasonal adjustment to base NASA averages
+                precip = raw['precipitation_mm'] * precip_mult
+                temp_c = (raw['temperature_k'] - 273.15) + temp_offset
+                wind = raw['wind_speed_ms'] * wind_mult
+
+                # Recalculate risks on seasonally-adjusted values
+                risks = {}
+                risks['very_wet'] = min(0.85, 0.4 + (precip - 5) * 0.08) if precip > 5 else (
+                    0.1 + (precip - 1) * 0.075 if precip > 1 else max(0.02, precip * 0.1))
+                risks['very_hot'] = min(0.9, 0.6 + (temp_c - 35) * 0.05) if temp_c > 35 else (
+                    0.2 + (temp_c - 30) * 0.08 if temp_c > 30 else (max(0.01, (temp_c - 15) * 0.02) if temp_c > 15 else 0.01))
+                risks['very_cold'] = min(0.9, 0.5 + (5 - temp_c) * 0.08) if temp_c < 5 else (
+                    (15 - temp_c) * 0.04 if temp_c < 15 else 0.01)
+                risks['very_windy'] = min(0.85, 0.3 + (wind - 12) * 0.06) if wind > 12 else (
+                    0.05 + (wind - 6) * 0.04 if wind > 6 else max(0.01, wind * 0.008))
+                risks['very_uncomfortable'] = min(0.9,
+                    risks['very_hot'] * 0.3 + risks['very_cold'] * 0.3 +
+                    risks['very_windy'] * 0.2 + risks['very_wet'] * 0.2)
+                risks = {k: max(0.01, min(0.95, v)) for k, v in risks.items()}
+
+                pct = {k: round(v * 100, 1) for k, v in risks.items()}
+
+                if (pct['very_wet']  <= criteria['maxWetRisk'] and
+                    pct['very_hot']  <= criteria['maxHotRisk'] and
+                    pct['very_cold'] <= criteria['maxColdRisk'] and
+                    pct['very_windy'] <= criteria['maxWindyRisk']):
+
+                    overall = round((pct['very_wet'] + pct['very_hot'] + pct['very_cold'] + pct['very_windy']) / 4, 1)
                     recommendations.append({
-                        'destination': city['name'],
+                        'destination': f"{city['name']}, {city['country']}",
                         'country': city['country'],
+                        'state': city.get('state', ''),
                         'coordinates': f"{city['lat']:.1f}°N, {city['lon']:.1f}°E",
-                        'riskScores': {k: round(v, 1) for k, v in risk_percentages.items()},
-                        'overallRisk': round(overall_risk, 1),
+                        'riskScores': pct,
+                        'overallRisk': overall,
                         'avgTemp': f"{temp_c:.1f}°C",
-                        'avgPrecip': f"{raw_data['precipitation_mm']:.2f}mm",
-                        'whyRecommended': f"Real NASA data shows: {temp_c:.1f}°C, {raw_data['precipitation_mm']:.2f}mm precip, {raw_data['wind_speed_ms']:.1f}m/s wind",
-                        'bestFor': ['Outdoor activities', 'Sightseeing', 'Photography'],
-                        'nasaDataSource': 'GPM + FLDAS + MERRA-2'
+                        'avgPrecip': f"{precip:.2f}mm",
+                        'avgWind': f"{wind:.1f}m/s",
+                        'bestFor': self.ACTIVITY_LABELS.get(activity_type, ['Outdoor activities']),
+                        'whyRecommended': self._build_why_recommended(temp_c, precip, wind, activity_type, month),
+                        'nasaDataSource': 'GPM + FLDAS + MERRA-2',
+                        'population': city.get('population', 0),
                     })
-                    
             except Exception as e:
-                print(f"Error analyzing {city['name']}: {e}")
                 continue
-        
-        # Sort by overall risk (lowest first)
+
         recommendations.sort(key=lambda x: x['overallRisk'])
-        
-        print(f"Found {len(recommendations)} destinations meeting criteria")
+        print(f"Found {len(recommendations)} matching destinations")
         return recommendations
     
     def analyze_destinations_for_period(self, criteria):

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 from real_nasa_analyzer import RealNASAAnalyzer
 
 app = FastAPI(title="NASA Weather API")
